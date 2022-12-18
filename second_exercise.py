@@ -2,7 +2,11 @@ from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
 from datetime import datetime, timedelta    
 
-def python_first_function(): pass   
+def python_first_function(): 
+    now = datetime.now()
+    print("now =", now)
+
+   
 default_dag_args = {
     'start_date': datetime(2022, 1, 1),
     'email_on_failure': False,
