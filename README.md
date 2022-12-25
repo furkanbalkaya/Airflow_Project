@@ -1,4 +1,4 @@
-1. Download the project from GitHub: git clone  https://github.com/furkanbalkaya/ETL_Project.git
+1. Download the project from GitHub: git clone  https://github.com/furkanbalkaya/Airflow_Project.git
 2. Once downloaded, go to the project directory
 3. Open terminal or command prompt and enter docker-compose up or docker-compose up -d
 4. It may take few minutes for the containers to download and install the required dependencies. Once the container is up, open browser and go to localhost:8080
