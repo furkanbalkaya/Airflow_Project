@@ -10,6 +10,8 @@ import pandas as pd
 import numpy as np 
 import os
 
+
+# to make your parameters accept parameters, you must define the key words argument (kwargs)
 def get_data(**kwargs): 
     ticker = kwargs['ticker']
     api_key = 'IQZVJAU9X1PSX9YW'
@@ -24,6 +26,25 @@ def get_data(**kwargs):
             json.dump(data, outfile)
     except: pass
     
+def test_data():
+    read_path  = "C:/Users/furka/data_center/data_lake"
+    
+    ticker = kwargs['ticker']
+    latest = np.max([float(file.split("_")[-1]) for file in os.listdir(read_path) if ticker in file ])
+    latest_file = [file for file in os.listdir(read_path) if str(latest) in file][0]
+
+    file = open(read_path + latest_file)
+    data = json.load(file)
+
+    condition_1 = len(data.keys()) == 2
+    condition_2 = ('Time Series (Weekly)') in data.keys()
+    condition_3 = 'Meta Data' in data.keys()
+
+    if condition_1 and condition_2 and condition_3:
+        pass
+    else:
+        pass
+
 
 def clean_data(**kwargs): 
     read_path  = "C:/Users/furka/data_center/data_lake"
@@ -56,7 +77,9 @@ default_dag_args = {
 with DAG("exercise_3", schedule_interval = '@daily', catchup=False, default_args = default_dag_args) as dag_python:
 
     task_0 = PythonOperator(task_id = "get_market_data", python_callable = get_data, op_kwargs = {'ticker' : "IBM"})
-    task_1 = PythonOperator(task_id = "clean_market_data", python_callable = clean_data, op_kwargs = {'ticker' : "IBM"})
+    task_1 = PythonOperator(task_id = "clean_market_data", python_callable = test_data, op_kwargs = {'ticker' : "IBM"})
+    task_2 = PythonOperator(task_id = "clean_market_data", python_callable = clean_data, op_kwargs = {'ticker' : "IBM"})
 
-    task_0 >> task_1
+
+    task_0 >> task_1 >> task_2
 
